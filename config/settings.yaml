@@ -1,0 +1,29 @@
+app:
+  name: RTIE
+  version: "1.0.0"
+  environment: dev
+
+oracle:
+  pool_min: 2
+  pool_max: 6
+  query_timeout: 120
+  explain_plan_cost_threshold: 500
+  schema: OFSMDM
+
+redis:
+  ttl_metadata: 86400
+  ttl_logic: null
+  key_prefix: "rtie"
+
+llm:
+  temperature: 0
+  max_tokens: 2000
+  confidence_threshold: 0.85
+
+graph:
+  node_timeout: 60
+  max_retries: 3
+
+langsmith:
+  project: RTIE
+  tracing: true

@@ -1,0 +1,5 @@
+app:
+  environment: staging
+oracle:
+  pool_min: 2
+  pool_max: 6

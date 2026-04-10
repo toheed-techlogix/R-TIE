@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: rtie-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: rtie-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: rtie
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/memory/create_memory_tables.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  redis_data:
+  postgres_data:

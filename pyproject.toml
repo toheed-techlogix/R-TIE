@@ -1,0 +1,39 @@
+[tool.poetry]
+name = "rtie"
+version = "0.1.0"
+description = "Regulatory Trace & Intelligence Engine — a read-only multi-agent AI system for Oracle OFSAA FSAPPS logic explanation"
+authors = ["RTIE Team"]
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+langgraph = "^0.2.0"
+langchain = "^0.3.0"
+langchain-openai = "^0.2.0"
+langchain-anthropic = "^0.3.0"
+langsmith = "^0.1.0"
+fastapi = "^0.115.0"
+uvicorn = {extras = ["standard"], version = "^0.32.0"}
+oracledb = "^2.4.0"
+redis = "^5.2.0"
+psycopg2-binary = "^2.9.9"
+pydantic = "^2.9.0"
+pydantic-settings = "^2.6.0"
+python-dotenv = "^1.0.0"
+sqlparse = "^0.5.0"
+tenacity = "^9.0.0"
+pyyaml = "^6.0.0"
+langgraph-checkpoint-postgres = "^2.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.0"
+pytest-asyncio = "^0.24.0"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

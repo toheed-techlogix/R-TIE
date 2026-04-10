@@ -1,0 +1,5 @@
+app:
+  environment: dev
+oracle:
+  pool_min: 1
+  pool_max: 3
