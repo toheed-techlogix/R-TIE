@@ -1,0 +1,23 @@
+batch: TEST_BATCH_WITH_MANIFEST
+schema: OFSMDM
+description: "W39 smoke-test batch — validates manifest loader end-to-end"
+
+processes:
+  - name: TEST_PROCESS
+    sub_processes:
+      - name: TEST_SUB
+        tasks:
+          - order: 1
+            name: TEST_MANIFEST_FN
+            type: FUNCTION
+            source_file: test_manifest_fn.sql
+            active: true
+            description: "Smoke-test function"
+
+          - order: 2
+            name: TEST_INACTIVE_FN
+            type: FUNCTION
+            source_file: test_inactive_fn.sql
+            active: false
+            inactive_reason: "Test inactive handling"
+            description: "Smoke-test inactive task"
