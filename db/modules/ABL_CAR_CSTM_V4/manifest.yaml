@@ -1,0 +1,1110 @@
+batch: ABL_CAR_CSTM_V4
+schema: OFSERM
+description: ABL BIS Capital Structure Processing
+processes:
+  - name: ABL_CAPITAL_STRUCTURE_DATA_POPULATION
+    tasks:
+      - order: 1
+        name: BNK_SPECIFIC_PROV_WRITE_OFF_AMNT_DATA_POP_IRB
+        type: T2T
+        active: false
+        inactive_reason: removed_from_batch_per_run_chart
+      - order: 2
+        name: INV_SPECIFIC_PROV_WRITE_OFF_AMNT_DATA_POP_IRB
+        type: T2T
+        active: false
+        inactive_reason: removed_from_batch_per_run_chart
+      - order: 3
+        name: SFT_SPECIFIC_PROV_WRITE_OFF_AMNT_DATA_POP_IRB
+        type: T2T
+        active: false
+        inactive_reason: removed_from_batch_per_run_chart
+      - order: 4
+        name: T2T_FSI_CAP_INVESTMENT_STD_ACCT_HEAD_POP
+        type: T2T
+        active: false
+        inactive_reason: removed_from_batch_per_run_chart
+      - order: 5
+        name: T2T_FSI_CAP_BANKING_STD_ACCT_HEAD_POP
+        type: T2T
+        active: false
+        inactive_reason: removed_from_batch_per_run_chart
+      - order: 6
+        name: T2T_FSI_CAP_NETTABLE_POOL_STD_ACCT_HEAD_POP
+        type: T2T
+        active: false
+        inactive_reason: removed_from_batch_per_run_chart
+      - order: 7
+        name: T2T_FCT_CCP_DETAILS_STD_ACCT_HEAD_POP
+        type: T2T
+        source_file: T2T_FCT_CCP_DETAILS_STD_ACCT_HEAD_POP.sql
+        active: true
+      - order: 8
+        name: SEC_PRE_CRM_RWA_EXP_STD_ACCT_HEAD_DATA_POP_IRB
+        type: T2T
+        source_file: SEC_PRE_CRM_RWA_EXP_STD_ACCT_HEAD_DATA_POP_IRB.sql
+        active: true
+      - order: 9
+        name: SEC_PRE_CRM_RWA_EXP_STD_ACCT_HEAD_DATA_POP_STD
+        type: T2T
+        source_file: SEC_PRE_CRM_RWA_EXP_STD_ACCT_HEAD_DATA_POP_STD.sql
+        active: true
+      - order: 10
+        name: INV_DRV_DEDUCTION_CALC_ACCT_HEAD_DATA_POP
+        type: T2T
+        source_file: INV_DRV_DEDUCTION_CALC_ACCT_HEAD_DATA_POP.sql
+        active: true
+      - order: 11
+        name: SEC_RWA_EXP_STD_ACCT_HEAD_DATA_POP_IRB
+        type: T2T
+        source_file: SEC_RWA_EXP_STD_ACCT_HEAD_DATA_POP_IRB.sql
+        active: true
+      - order: 12
+        name: SEC_RWA_EXP_STD_ACCT_HEAD_DATA_POP_STD
+        type: T2T
+        source_file: SEC_RWA_EXP_STD_ACCT_HEAD_DATA_POP_STD.sql
+        active: true
+      - order: 13
+        name: PREV_QTR_CET1_STANDARD_ACCT_HEAD_DATA_POP
+        type: T2T
+        source_file: PREV_QTR_CET1_STANDARD_ACCT_HEAD_DATA_POP.sql
+        active: true
+      - order: 14
+        name: T2T_FSI_CAP_EXP_STD_ACCT_HEAD_DATA_POP
+        type: T2T
+        active: false
+        inactive_reason: removed_from_batch_per_run_chart
+  - name: ABL_CAPITAL_STRUCTURE_DATA_PROCESSING
+    sub_processes:
+      - name: MINORITY_INTEREST_CALCULATIONS
+        tasks:
+          - order: 1
+            name: MINORITY_INTEREST_DATA_POP
+            type: T2T
+            source_file: MINORITY_INTEREST_DATA_POP.sql
+            active: true
+          - order: 2
+            name: CS_Minority_Interest_Minimum_Required_Capital
+            type: TYPE3
+            source_file: CS_Minority_Interest_Minimum_Required_Capital.sql
+            active: true
+            description: "CS - Minority Interest - Minimum Required Capital"
+          - order: 3
+            name: CS_Minority_Interest_Surplus_Capital
+            type: TYPE3
+            source_file: CS_Minority_Interest_Surplus_Capital.sql
+            active: true
+            description: "CS - Minority Interest - Surplus Capital"
+          - order: 4
+            name: CS_Minority_Interest_Third_party_contribution_in_Surplus
+            type: TYPE3
+            source_file: CS_Minority_Interest_Third_party_contribution_in_Surplus.sql
+            active: true
+            description: "CS - Minority Interest - Third party contribution in Surplus"
+          - order: 5
+            name: CS_Minority_Interest_Third_party_contribution_in_Surplus_Capital
+            type: TYPE3
+            source_file: CS_Minority_Interest_Third_party_contribution_in_Surplus_Capital.sql
+            active: true
+            description: "CS - Minority Interest - Third party contribution in Surplus Capital"
+      - name: ABL_CAPITAL_STANDARD_ACCOUNTING_POPULATION
+        tasks:
+          - order: 1
+            name: CAPITAL_STD_ACCT_HEAD_POP
+            type: T2T
+            source_file: CAPITAL_STD_ACCT_HEAD_POP.sql
+            active: true
+          - order: 2
+            name: CAPITAL_SETUP_STANDARD_ACCT_HEAD_DATA_POP
+            type: T2T
+            source_file: CAPITAL_SETUP_STANDARD_ACCT_HEAD_DATA_POP.sql
+            active: true
+          - order: 3
+            name: CAPITAL_SOURCE_STANDARD_ACCT_HEAD_DATA_POP
+            type: T2T
+            active: false
+            inactive_reason: removed_from_batch_per_run_chart
+          - order: 4
+            name: ABL_CAPITAL_SOURCE_STANDARD_ACCT_HEAD_DATA_POP
+            type: T2T
+            source_file: ABL_CAPITAL_SOURCE_STANDARD_ACCT_HEAD_DATA_POP.sql
+            active: true
+          - order: 5
+            name: MKT_RISK_DEDUCTION_CALC_ACCT_HEAD_DATA_POP
+            type: T2T
+            source_file: MKT_RISK_DEDUCTION_CALC_ACCT_HEAD_DATA_POP.sql
+            active: true
+          - order: 6
+            name: INTERNAL_TRANSACTIONS_STANDARD_ACCT_HEAD_DATA_POP
+            type: T2T
+            source_file: INTERNAL_TRANSACTIONS_STANDARD_ACCT_HEAD_DATA_POP.sql
+            active: true
+      - name: STANDARD_ACCOUNT_CAP_COMP_GROUP_ASSIGNMENT
+        tasks:
+          - order: 1
+            name: CS_Standard_Account_Head_Capital_Comp_Group_Assignment
+            type: TYPE3
+            source_file: CS_Standard_Account_Head_Capital_Comp_Group_Assignment.sql
+            active: true
+            description: "CS - Standard Account Head Capital Comp Group Assignment"
+      - name: ABL_REGULATORY_ADJUSTMENTS_DEDUCTION_CALCULATION
+        tasks:
+          - order: 1
+            name: CS_Goodwill_Calculation
+            type: TYPE3
+            source_file: CS_Goodwill_Calculation.sql
+            active: true
+            description: "CS - Goodwill Calculation"
+          - order: 2
+            name: CS_Goodwill_Net_of_DTL_Calculation
+            type: TYPE3
+            source_file: CS_Goodwill_Net_of_DTL_Calculation.sql
+            active: true
+            description: "CS - Goodwill Net of DTL Calculation"
+          - order: 3
+            name: CS_Other_Intangible_Assets_Net_of_DTL_Calculation
+            type: TYPE3
+            source_file: CS_Other_Intangible_Assets_Net_of_DTL_Calculation.sql
+            active: true
+            description: "CS - Other Intangible Assets Net of DTL Calculation"
+          - order: 4
+            name: CS_Goodwill_and_Other_Intangible_Assets_Net_of_DTL_Calculation
+            type: TYPE3
+            source_file: CS_Goodwill_and_Other_Intangible_Assets_Net_of_DTL_Calculation.sql
+            active: true
+            description: "CS - Goodwill and Other Intangible Assets Net of DTL Calculation"
+          - order: 5
+            name: CS_Deferred_Tax_Asset_Net_of_DTL_Calculation
+            type: TYPE3
+            source_file: CS_Deferred_Tax_Asset_Net_of_DTL_Calculation.sql
+            active: true
+            description: "CS - Deferred Tax Asset Net of DTL Calculation"
+          - order: 6
+            name: CS_Defined_Pension_Fund_Asset_Net_of_DTL_Calculation
+            type: TYPE3
+            active: false
+            inactive_reason: removed_from_batch_per_run_chart
+            description: "CS - Defined Pension Fund Asset Net of DTL Calculation"
+          - order: 7
+            name: ABL_Def_Pension_Fund_Asset_Net_DTL
+            type: CSTM_DT
+            source_file: ABL_Def_Pension_Fund_Asset_Net_DTL.sql
+            active: false
+            inactive_reason: source_file_missing
+          - order: 8
+            name: CS_Net_Defined_Pension_Fund_Calculation
+            type: TYPE3
+            active: false
+            inactive_reason: removed_from_batch_per_run_chart
+            description: "CS - Net Defined Pension Fund Calculation"
+          - order: 9
+            name: ABL_Net_Def_Pens_Fnd_Calc
+            type: CSTM_DT
+            source_file: ABL_Net_Def_Pens_Fnd_Calc.sql
+            active: false
+            inactive_reason: source_file_missing
+          - order: 10
+            name: ABL_Stop
+            type: CSTM_DT
+            source_file: ABL_Stop.sql
+            active: false
+            inactive_reason: source_file_missing
+          - order: 11
+            name: CS_Net_Cash_Flow_Hedge_Reserve_Calculation
+            type: TYPE3
+            source_file: CS_Net_Cash_Flow_Hedge_Reserve_Calculation.sql
+            active: true
+            description: "CS - Net Cash Flow Hedge Reserve Calculation"
+          - order: 12
+            name: CS_Mortgage_Servicing_Rights_Net_of_DTL_Calculation
+            type: TYPE3
+            source_file: CS_Mortgage_Servicing_Rights_Net_of_DTL_Calculation.sql
+            active: true
+            description: "CS - Mortgage Servicing Rights Net of DTL Calculation"
+          - order: 13
+            name: CS_Deferred_Tax_Asset_Related_to_Temporary_Differences_Calculation
+            type: TYPE3
+            source_file: CS_Deferred_Tax_Asset_Related_to_Temporary_Differences_Calculation.sql
+            active: true
+            description: "CS - Deferred Tax Asset Related to Temporary Differences Calculation"
+      - name: ABL_PROVISION_CALCULATION
+        tasks:
+          - order: 1
+            name: CS_General_Provision_for_IRB
+            type: TYPE3
+            source_file: CS_General_Provision_for_IRB.sql
+            active: true
+            description: "CS - General Provision for IRB"
+          - order: 2
+            name: CS_Total_Provision_for_IRB
+            type: TYPE3
+            source_file: CS_Total_Provision_for_IRB.sql
+            active: true
+            description: "CS - Total Provision for IRB"
+          - order: 3
+            name: CS_EL_Greater_than_Provisions_IRB
+            type: TYPE3
+            source_file: CS_EL_Greater_than_Provisions_IRB.sql
+            active: true
+            description: "CS - EL Greater than Provisions - IRB"
+          - order: 4
+            name: CS_Excess_of_Total_Eligible_Provision_part_of_Gross_Tier_2
+            type: TYPE3
+            source_file: CS_Excess_of_Total_Eligible_Provision_part_of_Gross_Tier_2.sql
+            active: true
+            description: "CS - Excess of Total Eligible Provision part of Gross Tier 2"
+          - order: 5
+            name: CS_General_Provision_for_Standardized_Approach
+            type: TYPE3
+            source_file: CS_General_Provision_for_Standardized_Approach.sql
+            active: true
+            description: "CS - General Provision for Standardized Approach"
+          - order: 6
+            name: CS_Latent_Revaluation_Reserve
+            type: TYPE3
+            active: false
+            inactive_reason: removed_from_batch_per_run_chart
+            description: "CS - Latent Revaluation Reserve"
+          - order: 7
+            name: CS_Latent_Revaluation_Reserve
+            type: CSTM_DT
+            source_file: CS_Latent_Revaluation_Reserve.sql
+            active: false
+            inactive_reason: source_file_missing
+            description: "CS - Latent Revaluation Reserve"
+      - name: GROSS_CAPITAL_CALCULATION
+        tasks:
+          - order: 1
+            name: CS_Gross_Common_Equity_Tier1_Capital
+            type: TYPE3
+            source_file: CS_Gross_Common_Equity_Tier1_Capital.sql
+            active: true
+            description: "CS - Gross Common Equity Tier1 Capital"
+          - order: 2
+            name: CS_Gross_Additional_Tier1_Capital
+            type: TYPE3
+            source_file: CS_Gross_Additional_Tier1_Capital.sql
+            active: true
+            description: "CS - Gross Additional Tier1 Capital"
+          - order: 3
+            name: CS_Gross_Tier2_Capital
+            type: TYPE3
+            source_file: CS_Gross_Tier2_Capital.sql
+            active: true
+            description: "CS - Gross Tier2 Capital"
+      - name: PHASE_IN_DEDUCTION_DATA_POPULATION
+        tasks:
+          - order: 1
+            name: MINORITY_INTEREST_PHASE_IN_TREATMENT_DATA_POP
+            type: T2T
+            source_file: MINORITY_INTEREST_PHASE_IN_TREATMENT_DATA_POP.sql
+            active: true
+          - order: 2
+            name: CALC_ACCT_HEAD_PHASE_IN_TREATMENT_DATA_POP
+            type: T2T
+            source_file: CALC_ACCT_HEAD_PHASE_IN_TREATMENT_DATA_POP.sql
+            active: true
+          - order: 3
+            name: CAPITAL_ACCT_HEAD_PHASE_IN_TREATMENT_DATA_POP
+            type: T2T
+            source_file: CAPITAL_ACCT_HEAD_PHASE_IN_TREATMENT_DATA_POP.sql
+            active: true
+          - order: 4
+            name: STD_ACCT_HEAD_PHASE_IN_TREATMENT_DATA_POP
+            type: T2T
+            source_file: STD_ACCT_HEAD_PHASE_IN_TREATMENT_DATA_POP.sql
+            active: true
+          - order: 5
+            name: OTHER_DEDUCTIONS_PHASE_IN_TREATMENT_DATA_POP
+            type: T2T
+            source_file: OTHER_DEDUCTIONS_PHASE_IN_TREATMENT_DATA_POP.sql
+            active: true
+      - name: PHASE_IN_DEDUCTION_CALCULATIONS
+        tasks:
+          - order: 1
+            name: CS_Phase_In_and_Balance_Capital_Component_Group_Assignment
+            type: TYPE3
+            source_file: CS_Phase_In_and_Balance_Capital_Component_Group_Assignment.sql
+            active: true
+            description: "CS - Phase In and Balance Capital Component Group Assignment"
+          - order: 2
+            name: CS_Phase_In_Deduction_Percentage_Assignment
+            type: TYPE3
+            source_file: CS_Phase_In_Deduction_Percentage_Assignment.sql
+            active: true
+            description: "CS - Phase In Deduction Percentage Assignment"
+          - order: 3
+            name: CS_Phase_In_Treatment_RW_Assignment
+            type: TYPE3
+            source_file: CS_Phase_In_Treatment_RW_Assignment.sql
+            active: true
+            description: "CS - Phase In Treatment RW Assignment"
+          - order: 4
+            name: CS_Phase_In_Deduction_Amount
+            type: TYPE3
+            source_file: CS_Phase_In_Deduction_Amount.sql
+            active: true
+            description: "CS - Phase In Deduction Amount"
+          - order: 5
+            name: CS_Regulatory_Adjustments_Phase_In_Deduction_Amount
+            type: TYPE3
+            source_file: CS_Regulatory_Adjustments_Phase_In_Deduction_Amount.sql
+            active: true
+            description: "CS - Regulatory Adjustments Phase In Deduction Amount"
+          - order: 6
+            name: CS_Regulatory_Investments_Phase_In_Deduction_Amount
+            type: TYPE3
+            source_file: CS_Regulatory_Investments_Phase_In_Deduction_Amount.sql
+            active: true
+            description: "CS - Regulatory Investments Phase In Deduction Amount"
+      - name: ABL_NET_CET_POST_MINORITY_INTEREST_AND_REGULATORY_ADJUSTMENTS
+        tasks:
+          - order: 1
+            name: MINORITY_INTEREST_STANDARD_ACCT_HEAD_DATA_POP
+            type: T2T
+            source_file: MINORITY_INTEREST_STANDARD_ACCT_HEAD_DATA_POP.sql
+            active: true
+          - order: 2
+            name: REGULATORY_ADJUSTMENT_STANDARD_ACCT_HEAD_DATA_POP
+            type: T2T
+            source_file: REGULATORY_ADJUSTMENT_STANDARD_ACCT_HEAD_DATA_POP.sql
+            active: true
+          - order: 3
+            name: REGULATORY_INVST_DEDUCTION_STD_ACCT_HEAD_DATA_POP
+            type: T2T
+            source_file: REGULATORY_INVST_DEDUCTION_STD_ACCT_HEAD_DATA_POP.sql
+            active: true
+          - order: 4
+            name: ABL_RECIPR_CRH_HEAD_CSTM
+            type: CSTM_DT
+            source_file: ABL_RECIPR_CRH_HEAD_CSTM.sql
+            active: false
+            inactive_reason: source_file_missing
+          - order: 5
+            name: ABL_Deduction_RWA_Cap_Struct
+            type: CSTM_DT
+            source_file: ABL_Deduction_RWA_Cap_Struct.sql
+            active: false
+            inactive_reason: source_file_missing
+          - order: 6
+            name: CS_Net_CET1_Capital_Post_Minority_Interest_Adjustment
+            type: TYPE3
+            source_file: CS_Net_CET1_Capital_Post_Minority_Interest_Adjustment.sql
+            active: true
+            description: "CS - Net CET1 Capital Post Minority Interest Adjustment"
+          - order: 7
+            name: ABL_POST_REGADJCET1_CSTM
+            type: CSTM_DT
+            source_file: ABL_POST_REGADJCET1_CSTM.sql
+            active: false
+            inactive_reason: source_file_missing
+          - order: 8
+            name: ABL_TFC_DED_CET1_CSTM
+            type: CSTM_DT
+            source_file: ABL_TFC_DED_CET1_CSTM.sql
+            active: false
+            inactive_reason: source_file_missing
+          - order: 9
+            name: CS_Net_CET1_Capital_post_Regulatory_Adjustment
+            type: TYPE3
+            active: false
+            inactive_reason: removed_from_batch_per_run_chart
+            description: "CS - Net CET1 Capital post Regulatory Adjustment"
+      - name: ABL_INSIGNIFICANT_INVESTMENT_IN_ENTITIES_OUTSIDE_REG_CONSOLIDATION_PROCESSING
+        tasks:
+          - order: 1
+            name: INSIGNFCNT_INVSTMNT_IN_NON_REG_CONSL_ENTITY_DATA_POP
+            type: T2T
+            source_file: INSIGNFCNT_INVSTMNT_IN_NON_REG_CONSL_ENTITY_DATA_POP.sql
+            active: false
+            inactive_reason: source_file_missing
+          - order: 2
+            name: ABL_INSIGNFCNT_INVSTMNT_IN_NON_REG_CONSL_ENTITY_DATA_POP
+            type: CSTM_T2T
+            source_file: ABL_INSIGNFCNT_INVSTMNT_IN_NON_REG_CONSL_ENTITY_DATA_POP.sql
+            active: true
+          - order: 3
+            name: CS_Insignificant_Invst_in_Non_Regulatory_Consl_Entity_Total_Deduction_Amount
+            type: TYPE3
+            source_file: CS_Insignificant_Invst_in_Non_Regulatory_Consl_Entity_Total_Deduction_Amount.sql
+            active: true
+            description: "CS - Insignificant Invst in Non Regulatory Consl Entity Total Deduction Amount"
+          - order: 4
+            name: CS_Insignificant_Invst_in_Non_Regulatory_Consl_Entity_Deduction_Amount
+            type: TYPE3
+            source_file: CS_Insignificant_Invst_in_Non_Regulatory_Consl_Entity_Deduction_Amount.sql
+            active: true
+            description: "CS - Insignificant Invst in Non Regulatory Consl Entity Deduction Amount"
+          - order: 5
+            name: CS_Insignificant_Invst_in_Non_Regulatory_Consl_Entity_Deduction_Percentage
+            type: TYPE3
+            source_file: CS_Insignificant_Invst_in_Non_Regulatory_Consl_Entity_Deduction_Percentage.sql
+            active: true
+            description: "CS - Insignificant Invst in Non Regulatory Consl Entity Deduction Percentage"
+          - order: 6
+            name: CS_Phase_In_Treatment_Insignificant_Invst_Deduction_Amount_Assignment
+            type: TYPE3
+            source_file: CS_Phase_In_Treatment_Insignificant_Invst_Deduction_Amount_Assignment.sql
+            active: true
+            description: "CS - Phase In Treatment - Insignificant Invst Deduction Amount Assignment"
+          - order: 7
+            name: CS_Insignificant_Invst_in_Non_Regulatory_Entity_Phase_In_Deduction_Amount
+            type: TYPE3
+            source_file: CS_Insignificant_Invst_in_Non_Regulatory_Entity_Phase_In_Deduction_Amount.sql
+            active: true
+            description: "CS - Insignificant Invst in Non Regulatory Entity Phase In Deduction Amount"
+          - order: 8
+            name: INSIGNFCNT_INVST_DED_STD_ACCT_HEAD_DATA_POP
+            type: T2T
+            source_file: INSIGNFCNT_INVST_DED_STD_ACCT_HEAD_DATA_POP.sql
+            active: true
+          - order: 9
+            name: CS_Net_CET1_Capital_post_deduction_of_Insignificant_Investment_in_Non_Reg_Consl_Entities
+            type: TYPE3
+            source_file: CS_Net_CET1_Capital_post_deduction_of_Insignificant_Investment_in_Non_Reg_Consl_Entities.sql
+            active: true
+            description: "CS - Net CET1 Capital post deduction of Insignificant Investment in Non Reg Consl Entities"
+      - name: ABL_SIGNIFICANT_INVESTMENT_IN_ENTITIES_OUTSIDE_REG_CONSOLIDATION_PROCESSING
+        tasks:
+          - order: 1
+            name: SIGNIFCNT_INVSTMNT_IN_NON_REG_CONSL_ENTITY_DATA_POP
+            type: T2T
+            source_file: SIGNIFCNT_INVSTMNT_IN_NON_REG_CONSL_ENTITY_DATA_POP.sql
+            active: false
+            inactive_reason: source_file_missing
+          - order: 2
+            name: ABL_SIGNIFCNT_INVSTMNT_IN_NON_REG_CONSL_ENTITY_DATA_POP
+            type: CSTM_T2T
+            source_file: ABL_SIGNIFCNT_INVSTMNT_IN_NON_REG_CONSL_ENTITY_DATA_POP.sql
+            active: true
+          - order: 3
+            name: CS_Significant_Invst_in_Non_Regulatory_Consl_Entity_Total_Deduction_Amount
+            type: TYPE3
+            source_file: CS_Significant_Invst_in_Non_Regulatory_Consl_Entity_Total_Deduction_Amount.sql
+            active: true
+            description: "CS - Significant Invst in Non Regulatory Consl Entity Total Deduction Amount"
+          - order: 4
+            name: CS_Significant_Invst_in_Non_Regulatory_Consl_Entity_Deduction_Amount
+            type: TYPE3
+            source_file: CS_Significant_Invst_in_Non_Regulatory_Consl_Entity_Deduction_Amount.sql
+            active: true
+            description: "CS - Significant Invst in Non Regulatory Consl Entity Deduction Amount"
+          - order: 5
+            name: CS_Significant_Invst_in_Non_Regulatory_Consl_Entity_Deduction_Percentage
+            type: TYPE3
+            source_file: CS_Significant_Invst_in_Non_Regulatory_Consl_Entity_Deduction_Percentage.sql
+            active: true
+            description: "CS - Significant Invst in Non Regulatory Consl Entity - Deduction Percentage"
+          - order: 6
+            name: CS_Phase_In_Treatment_Significant_Invst_Deduction_Amount_Assignment
+            type: TYPE3
+            source_file: CS_Phase_In_Treatment_Significant_Invst_Deduction_Amount_Assignment.sql
+            active: true
+            description: "CS - Phase In Treatment - Significant Invst Deduction Amount Assignment"
+          - order: 7
+            name: CS_Significant_Invst_in_Non_Regulatory_Entity_Phase_In_Deduction_Amount
+            type: TYPE3
+            source_file: CS_Significant_Invst_in_Non_Regulatory_Entity_Phase_In_Deduction_Amount.sql
+            active: true
+            description: "CS - Significant Invst in Non Regulatory Entity Phase In Deduction Amount"
+          - order: 8
+            name: SIGNIFCNT_INVST_DED_STD_ACCT_HEAD_DATA_POP
+            type: T2T
+            source_file: SIGNIFCNT_INVST_DED_STD_ACCT_HEAD_DATA_POP.sql
+            active: true
+          - order: 9
+            name: CS_Net_CET1_Capital_post_deduction_of_Significant_Investment_in_Non_Reg_Consl_Entities
+            type: TYPE3
+            source_file: CS_Net_CET1_Capital_post_deduction_of_Significant_Investment_in_Non_Reg_Consl_Entities.sql
+            active: false
+            inactive_reason: source_file_missing
+            description: "CS - Net CET1 Capital post deduction of Significant Investment in Non Reg Consl Entities"
+      - name: THRESHOLD_TREATMENT_CALCULATIONS
+        tasks:
+          - order: 1
+            name: SIGNIFICANT_INVST_THRESHOLD_TREATMENT_DATA_POP
+            type: T2T
+            source_file: SIGNIFICANT_INVST_THRESHOLD_TREATMENT_DATA_POP.sql
+            active: true
+          - order: 2
+            name: STD_ACCT_HEAD_THRESHOLD_TREATMENT_DATA_POP
+            type: T2T
+            source_file: STD_ACCT_HEAD_THRESHOLD_TREATMENT_DATA_POP.sql
+            active: true
+          - order: 3
+            name: CS_Threshold_Treatment_Net_CET1_post_ded_of_Insig_Invest_in_Non_Reg_Consl_Entity_and_Indirect_Exp
+            type: TYPE3
+            source_file: CS_Threshold_Treatment_Net_CET1_post_ded_of_Insig_Invest_in_Non_Reg_Consl_Entity_and_Indirect_Exp.sql
+            active: true
+            description: "CS -Threshold Treatment - Net CET1 post ded of Insig Invest in Non Reg Consl Entity and Indirect Exp"
+          - order: 4
+            name: CS_Threshold_Treatment_Individual_Threshold_Assignment
+            type: TYPE3
+            source_file: CS_Threshold_Treatment_Individual_Threshold_Assignment.sql
+            active: true
+            description: "CS - Threshold Treatment - Individual Threshold Assignment"
+          - order: 5
+            name: CS_Threshold_Treatment_Amount_below_Individual_threshold_calculation
+            type: TYPE3
+            source_file: CS_Threshold_Treatment_Amount_below_Individual_threshold_calculation.sql
+            active: true
+            description: "CS - Threshold Treatment - Amount below Individual threshold calculation"
+          - order: 6
+            name: CS_Threshold_Treatment_Amount_above_Individual_threshold_calculation
+            type: TYPE3
+            source_file: CS_Threshold_Treatment_Amount_above_Individual_threshold_calculation.sql
+            active: true
+            description: "CS - Threshold Treatment - Amount above Individual threshold calculation"
+          - order: 7
+            name: CS_Phase_In_Treatment_Individual_Threshold_Deduction_Amount_Assignment
+            type: TYPE3
+            source_file: CS_Phase_In_Treatment_Individual_Threshold_Deduction_Amount_Assignment.sql
+            active: true
+            description: "CS - Phase In Treatment - Individual Threshold Deduction Amount Assignment"
+          - order: 8
+            name: CS_Phase_In_Treatment_Individual_Threshold_Phase_In_Deduction_Amount
+            type: TYPE3
+            source_file: CS_Phase_In_Treatment_Individual_Threshold_Phase_In_Deduction_Amount.sql
+            active: true
+            description: "CS - Phase In Treatment - Individual Threshold Phase In Deduction Amount"
+          - order: 9
+            name: THRESHOLD_DEDUCTION_STD_ACCT_HEAD_DATA_POP
+            type: T2T
+            source_file: THRESHOLD_DEDUCTION_STD_ACCT_HEAD_DATA_POP.sql
+            active: true
+          - order: 10
+            name: Standard_Account_Head_Amount_Population_for_Individual_Threshold_Deduction
+            type: TYPE3
+            source_file: Standard_Account_Head_Amount_Population_for_Individual_Threshold_Deduction.sql
+            active: true
+            description: "Standard Account Head Amount Population for Individual Threshold Deduction"
+          - order: 11
+            name: CS_Net_CET1_post_Deduction_above_Individual_Threshold_Limit
+            type: TYPE3
+            source_file: CS_Net_CET1_post_Deduction_above_Individual_Threshold_Limit.sql
+            active: true
+            description: "CS - Net CET1 post Deduction above Individual Threshold Limit"
+          - order: 12
+            name: CS_Threshold_Treatment_Net_CET1_post_Deduction_above_Threshold_Limit
+            type: TYPE3
+            source_file: CS_Threshold_Treatment_Net_CET1_post_Deduction_above_Threshold_Limit.sql
+            active: true
+            description: "CS - Threshold Treatment - Net CET1 post Deduction above Threshold Limit"
+          - order: 13
+            name: CS_Threshold_Treatment_Aggregate_Threshold_Assignment
+            type: TYPE3
+            source_file: CS_Threshold_Treatment_Aggregate_Threshold_Assignment.sql
+            active: true
+            description: "CS - Threshold Treatment - Aggregate Threshold Assignment"
+          - order: 14
+            name: CS_Threshold_Treatment_Amount_below_Aggregate_threshold_calculation
+            type: TYPE3
+            source_file: CS_Threshold_Treatment_Amount_below_Aggregate_threshold_calculation.sql
+            active: true
+            description: "CS - Threshold Treatment - Amount below Aggregate threshold calculation"
+          - order: 15
+            name: CS_Threshold_Treatment_Amount_above_Aggregate_threshold_calculation
+            type: TYPE3
+            source_file: CS_Threshold_Treatment_Amount_above_Aggregate_threshold_calculation.sql
+            active: true
+            description: "CS - Threshold Treatment - Amount above Aggregate threshold calculation"
+          - order: 16
+            name: CS_Phase_In_Treatment_Aggregate_Threshold_Deduction_Amount_Assignment
+            type: TYPE3
+            source_file: CS_Phase_In_Treatment_Aggregate_Threshold_Deduction_Amount_Assignment.sql
+            active: true
+            description: "CS - Phase In Treatment - Aggregate Threshold Deduction Amount Assignment"
+          - order: 17
+            name: CS_Phase_In_Treatment_Aggregate_Threshold_Phase_In_Deduction_Amount
+            type: TYPE3
+            source_file: CS_Phase_In_Treatment_Aggregate_Threshold_Phase_In_Deduction_Amount.sql
+            active: true
+            description: "CS - Phase In Treatment - Aggregate Threshold Phase In Deduction Amount"
+          - order: 18
+            name: AGGREGATE_THRESHOLD_DED_STD_ACCT_HEAD_DATA_POP
+            type: T2T
+            source_file: AGGREGATE_THRESHOLD_DED_STD_ACCT_HEAD_DATA_POP.sql
+            active: true
+          - order: 19
+            name: CS_Threshold_Treatment_Calculation_of_Amount_to_be_Risk_Weighted
+            type: TYPE3
+            source_file: CS_Threshold_Treatment_Calculation_of_Amount_to_be_Risk_Weighted.sql
+            active: true
+            description: "CS - Threshold Treatment - Calculation of Amount to be Risk Weighted"
+          - order: 20
+            name: CS_Threshold_Treatment_Risk_Weight_Assignment
+            type: TYPE3
+            source_file: CS_Threshold_Treatment_Risk_Weight_Assignment.sql
+            active: true
+            description: "CS - Threshold Treatment - Risk Weight Assignment"
+          - order: 21
+            name: CS_Threshold_Treatment_Risk_Weighted_Asset_Calculation
+            type: TYPE3
+            source_file: CS_Threshold_Treatment_Risk_Weighted_Asset_Calculation.sql
+            active: true
+            description: "CS - Threshold Treatment - Risk Weighted Asset Calculation"
+      - name: POST_PHASE_IN_TREATMENT_CALCULATIONS
+        tasks:
+          - order: 1
+            name: CS_Phase_In_Treatment_Balance_Phase_In_Amount
+            type: TYPE3
+            source_file: CS_Phase_In_Treatment_Balance_Phase_In_Amount.sql
+            active: true
+            description: "CS - Phase In Treatment - Balance Phase In Amount"
+          - order: 2
+            name: POST_PHASE_IN_AMOUNT_STD_ACCT_HEAD_DATA_POP
+            type: T2T
+            source_file: POST_PHASE_IN_AMOUNT_STD_ACCT_HEAD_DATA_POP.sql
+            active: true
+          - order: 3
+            name: CS_Phase_In_Treatment_RWA_Calculation
+            type: TYPE3
+            source_file: CS_Phase_In_Treatment_RWA_Calculation.sql
+            active: true
+            description: "CS - Phase In Treatment - RWA Calculation"
+      - name: NET_CAPITAL_CALCULATIONS
+        tasks:
+          - order: 1
+            name: CS_Net_AT1_Post_Minority_Interest_Adjustment
+            type: TYPE3
+            source_file: CS_Net_AT1_Post_Minority_Interest_Adjustment.sql
+            active: true
+            description: "CS - Net AT1 Post Minority Interest Adjustment"
+          - order: 2
+            name: CS_Shortfall_in_AT1_Post_Minority_Interest_Adjustment
+            type: TYPE3
+            source_file: CS_Shortfall_in_AT1_Post_Minority_Interest_Adjustment.sql
+            active: true
+            description: "CS - Shortfall in AT1 Post Minority Interest Adjustment"
+          - order: 3
+            name: CS_Net_AT1_Capital_Post_Regulatory_Adjustment
+            type: TYPE3
+            source_file: CS_Net_AT1_Capital_Post_Regulatory_Adjustment.sql
+            active: true
+            description: "CS - Net AT1 Capital Post Regulatory Adjustment"
+          - order: 4
+            name: CS_Shortfall_in_AT1_Post_Regulatory_Adjustment
+            type: TYPE3
+            source_file: CS_Shortfall_in_AT1_Post_Regulatory_Adjustment.sql
+            active: true
+            description: "CS - Shortfall in AT1 Post Regulatory Adjustment"
+          - order: 5
+            name: CS_Net_Tier_2_Capital_Calculation
+            type: TYPE3
+            source_file: CS_Net_Tier_2_Capital_Calculation.sql
+            active: true
+            description: "CS - Net Tier 2 Capital Calculation"
+          - order: 6
+            name: CS_Shortfall_in_Tier_2_Capital
+            type: TYPE3
+            source_file: CS_Shortfall_in_Tier_2_Capital.sql
+            active: true
+            description: "CS - Shortfall in Tier 2 Capital"
+          - order: 7
+            name: CS_Net_Additional_Tier_1_Capital_Calculation
+            type: TYPE3
+            source_file: CS_Net_Additional_Tier_1_Capital_Calculation.sql
+            active: true
+            description: "CS - Net Additional Tier 1 Capital Calculation"
+          - order: 8
+            name: CS_Shortfall_in_Additional_Tier_1_Capital
+            type: TYPE3
+            source_file: CS_Shortfall_in_Additional_Tier_1_Capital.sql
+            active: true
+            description: "CS - Shortfall in Additional Tier 1 Capital"
+          - order: 9
+            name: CS_Net_CET1_Capital_post_adjustment_due_to_insufficient_AT1_Capital
+            type: TYPE3
+            source_file: CS_Net_CET1_Capital_post_adjustment_due_to_insufficient_AT1_Capital.sql
+            active: true
+            description: "CS - Net CET1 Capital post adjustment due to insufficient AT1 Capital"
+          - order: 10
+            name: CS_Net_Common_Equity_Tier_1_Capital
+            type: TYPE3
+            source_file: CS_Net_Common_Equity_Tier_1_Capital.sql
+            active: true
+            description: "CS - Net Common Equity Tier 1 Capital"
+          - order: 11
+            name: CS_Net_Tier_1_Capital
+            type: TYPE3
+            source_file: CS_Net_Tier_1_Capital.sql
+            active: true
+            description: "CS - Net Tier 1 Capital"
+      - name: CAPITAL_REPORTING_CALCULATIONS
+        tasks:
+          - order: 1
+            name: CS_Minority_Interest_Capital_attributable_to_Third_Party
+            type: TYPE3
+            source_file: CS_Minority_Interest_Capital_attributable_to_Third_Party.sql
+            active: true
+            description: "CS - Minority Interest - Capital attributable to Third Party"
+          - order: 2
+            name: CS_Minority_Interest_Capital_attributable_to_Third_Party_included_in_Common_Equity_T1_Capital
+            type: TYPE3
+            source_file: CS_Minority_Interest_Capital_attributable_to_Third_Party_included_in_Common_Equity_T1_Capital.sql
+            active: true
+            description: "CS - Minority Interest - Capital attributable to Third Party included in Common Equity T1 Capital"
+          - order: 3
+            name: CS_Significant_Investment_amount_in_Common_Stock_above_the_15_pct_Aggregate_Threshold_Limit
+            type: TYPE3
+            source_file: CS_Significant_Investment_amount_in_Common_Stock_above_the_15_pct_Aggregate_Threshold_Limit.sql
+            active: true
+            description: "CS - Significant Investment amount in Common Stock above the 15 pct Aggregate Threshold Limit"
+          - order: 4
+            name: CS_MSR_above_the_15_percent_Aggregate_Threshold_Limit
+            type: TYPE3
+            source_file: CS_MSR_above_the_15_percent_Aggregate_Threshold_Limit.sql
+            active: true
+            description: "CS - MSR above the 15 percent Aggregate Threshold Limit"
+          - order: 5
+            name: CS_DTA_related_to_Temporary_Differences_above_the_15_percent_Aggregate_Threshold_Limit
+            type: TYPE3
+            source_file: CS_DTA_related_to_Temporary_Differences_above_the_15_percent_Aggregate_Threshold_Limit.sql
+            active: true
+            description: "CS - DTA related to Temporary Differences above the 15 percent Aggregate Threshold Limit"
+          - order: 6
+            name: CS_Capital_Investments_in_Significant_entities_in_the_form_of_common_stock_that_are_not_deducted
+            type: TYPE3
+            source_file: CS_Capital_Investments_in_Significant_entities_in_the_form_of_common_stock_that_are_not_deducted.sql
+            active: true
+            description: "CS - Capital Investments in Significant entities, in the form of common stock , that are not deducted"
+          - order: 7
+            name: CS_MSR_net_of_DTL_that_are_not_deducted
+            type: TYPE3
+            source_file: CS_MSR_net_of_DTL_that_are_not_deducted.sql
+            active: true
+            description: "CS - MSR net of DTL that are not deducted"
+          - order: 8
+            name: CS_DTA_arising_from_temporary_differences_net_of_DTL_that_are_not_deducted
+            type: TYPE3
+            source_file: CS_DTA_arising_from_temporary_differences_net_of_DTL_that_are_not_deducted.sql
+            active: true
+            description: "CS - DTA arising from temporary differences net of DTL that are not deducted"
+          - order: 9
+            name: CS_Total_Investments_in_Private_Equity_Investment_Firm_AT1
+            type: TYPE3
+            source_file: CS_Total_Investments_in_Private_Equity_Investment_Firm_AT1.sql
+            active: true
+            description: "CS - Total Investments in Private Equity Investment Firm - AT1"
+          - order: 10
+            name: CS_Total_Investments_in_Private_Equity_Investment_Firm_CET1
+            type: TYPE3
+            source_file: CS_Total_Investments_in_Private_Equity_Investment_Firm_CET1.sql
+            active: true
+            description: "CS - Total Investments in Private Equity Investment Firm - CET1"
+          - order: 11
+            name: SECURITIZED_DEDUCTIONS_STD_ACCT_HEAD_POP
+            type: T2T
+            source_file: SECURITIZED_DEDUCTIONS_STD_ACCT_HEAD_POP.sql
+            active: true
+          - order: 12
+            name: RESECURITIZED_DEDUCTIONS_STD_ACCT_HEAD_POP
+            type: T2T
+            source_file: RESECURITIZED_DEDUCTIONS_STD_ACCT_HEAD_POP.sql
+            active: true
+          - order: 13
+            name: CS_Minority_Interest_T1_Capital_attributable_to_Third_Party
+            type: TYPE3
+            source_file: CS_Minority_Interest_T1_Capital_attributable_to_Third_Party.sql
+            active: true
+            description: "CS - Minority Interest - T1 Capital attributable to Third Party"
+          - order: 14
+            name: CS_Minority_Interest_T1_Capital_Surplus_attributable_to_Third_Party
+            type: TYPE3
+            source_file: CS_Minority_Interest_T1_Capital_Surplus_attributable_to_Third_Party.sql
+            active: true
+            description: "CS - Minority Interest - T1 Capital Surplus attributable to Third Party"
+          - order: 15
+            name: CS_Minority_Interest_Capital_attributable_to_Third_Party_included_in_Tier_1_Capital
+            type: TYPE3
+            source_file: CS_Minority_Interest_Capital_attributable_to_Third_Party_included_in_Tier_1_Capital.sql
+            active: true
+            description: "CS - Minority Interest - Capital attributable to Third Party included in Tier 1 Capital"
+          - order: 16
+            name: CS_Minority_Interest_Capital_attributable_to_Third_Party_included_in_AT1_Capital
+            type: TYPE3
+            source_file: CS_Minority_Interest_Capital_attributable_to_Third_Party_included_in_AT1_Capital.sql
+            active: true
+            description: "CS - Minority Interest - Capital attributable to Third Party included in AT1 Capital"
+          - order: 17
+            name: CS_Minority_Interest_Total_Capital_attributable_to_Third_Party
+            type: TYPE3
+            source_file: CS_Minority_Interest_Total_Capital_attributable_to_Third_Party.sql
+            active: true
+            description: "CS - Minority Interest - Total Capital attributable to Third Party"
+          - order: 18
+            name: CS_Minority_Interest_Total_Capital_Surplus_attributable_to_Third_Party
+            type: TYPE3
+            source_file: CS_Minority_Interest_Total_Capital_Surplus_attributable_to_Third_Party.sql
+            active: true
+            description: "CS - Minority Interest - Total Capital Surplus attributable to Third Party"
+          - order: 19
+            name: CS_Minority_Interest_Capital_attributable_to_Third_Party_included_in_Total_Capital
+            type: TYPE3
+            source_file: CS_Minority_Interest_Capital_attributable_to_Third_Party_included_in_Total_Capital.sql
+            active: true
+            description: "CS - Minority Interest - Capital attributable to Third Party included in Total Capital"
+          - order: 20
+            name: CS_Minority_Interest_Capital_attributable_to_Third_Party_included_in_Tier_2_Capital
+            type: TYPE3
+            source_file: CS_Minority_Interest_Capital_attributable_to_Third_Party_included_in_Tier_2_Capital.sql
+            active: true
+            description: "CS - Minority Interest - Capital attributable to Third Party included in Tier 2 Capital"
+      - name: ABL_CAPITAL_STRUCTURE_DEDUCTIONS_RWA_EXPOSURES
+        tasks:
+          - order: 1
+            name: ABL_ADD_ACCR_SIG_INSIG_EAD
+            type: CSTM_DT
+            source_file: ABL_ADD_ACCR_SIG_INSIG_EAD.sql
+            active: false
+            inactive_reason: source_file_missing
+          - order: 2
+            name: CAP_INVESTMENTS_POSITIONS_DATA_POP
+            type: T2T
+            source_file: CAP_INVESTMENTS_POSITIONS_DATA_POP.sql
+            active: false
+            inactive_reason: source_file_missing
+          - order: 3
+            name: RECIPROCAL_CROSS_HLDNG_CAP_DEDUCTION_EXPOSURES
+            type: T2T
+            active: false
+            inactive_reason: removed_from_batch_per_run_chart
+          - order: 4
+            name: INSIGNFCNT_INVSTMNT_CAP_DEDUCTION_EXPOSURES
+            type: T2T
+            source_file: INSIGNFCNT_INVSTMNT_CAP_DEDUCTION_EXPOSURES.sql
+            active: true
+          - order: 5
+            name: SIGNFCNT_INVSTMNT_CAP_DEDUCTION_EXPOSURES
+            type: T2T
+            source_file: SIGNFCNT_INVSTMNT_CAP_DEDUCTION_EXPOSURES.sql
+            active: true
+          - order: 6
+            name: Deduction_RWA_Cap_Struct
+            type: T2T
+            source_file: Deduction_RWA_Cap_Struct.sql
+            active: false
+            inactive_reason: source_file_missing
+          - order: 7
+            name: ABL_MR_INSIGNFCNT_DED_CSTM
+            type: CSTM_DT
+            source_file: ABL_MR_INSIGNFCNT_DED_CSTM.sql
+            active: false
+            inactive_reason: source_file_missing
+          - order: 8
+            name: ABL_CREDITRISK_INSIGNFCNT_DED_CSTM
+            type: CSTM_DT
+            source_file: ABL_CREDITRISK_INSIGNFCNT_DED_CSTM.sql
+            active: false
+            inactive_reason: source_file_missing
+          - order: 9
+            name: ABL_MR_CAP090_CSTM
+            type: CSTM_DT
+            source_file: ABL_MR_CAP090_CSTM.sql
+            active: false
+            inactive_reason: source_file_missing
+      - name: ABL_RWA_POPULATIONS
+        tasks:
+          - order: 1
+            name: ABL_CR_CAP169_CSTM
+            type: CSTM_DT
+            source_file: ABL_CR_CAP169_CSTM.sql
+            active: false
+            inactive_reason: source_file_missing
+          - order: 2
+            name: FN_FSI_CAP_EXP_STD_ACCT_HEAD_DATA_POP_CSTM
+            type: CSTM_DT
+            source_file: FN_FSI_CAP_EXP_STD_ACCT_HEAD_DATA_POP_CSTM.sql
+            active: false
+            inactive_reason: source_file_missing
+          - order: 3
+            name: MKT_RISK_RWA_STD_ACCT_HEAD_DATA_POP
+            type: T2T
+            source_file: MKT_RISK_RWA_STD_ACCT_HEAD_DATA_POP.sql
+            active: true
+          - order: 4
+            name: OPS_RISK_RWA_STD_ACCT_HEAD_DATA_POP
+            type: T2T
+            source_file: OPS_RISK_RWA_STD_ACCT_HEAD_DATA_POP.sql
+            active: true
+          - order: 5
+            name: REG_ADJUSTMENT_RWA_STD_ACCT_HEAD_DATA_POP
+            type: T2T
+            source_file: REG_ADJUSTMENT_RWA_STD_ACCT_HEAD_DATA_POP.sql
+            active: true
+          - order: 6
+            name: CAP_CVA_RWA_STD_ACCT_HEAD_POP
+            type: T2T
+            source_file: CAP_CVA_RWA_STD_ACCT_HEAD_POP.sql
+            active: true
+          - order: 7
+            name: CS_Credit_RWA
+            type: TYPE3
+            source_file: CS_Credit_RWA.sql
+            active: false
+            inactive_reason: source_file_missing
+            description: "CS - Credit RWA"
+          - order: 8
+            name: CS_Total_RWA
+            type: TYPE3
+            source_file: CS_Total_RWA.sql
+            active: false
+            inactive_reason: source_file_missing
+            description: "CS - Total RWA"
+          - order: 9
+            name: ABL_TOTAL_RWA_CSTM
+            type: CSTM_DT
+            source_file: ABL_TOTAL_RWA_CSTM.sql
+            active: false
+            inactive_reason: source_file_missing
+      - name: CAPITAL_RATIO_CALCULATIONS
+        tasks:
+          - order: 1
+            name: CS_Common_Equity_Tier_1_Capital_ratio
+            type: TYPE3
+            source_file: CS_Common_Equity_Tier_1_Capital_ratio.sql
+            active: true
+            description: "CS - Common Equity Tier 1 Capital ratio"
+          - order: 2
+            name: CS_Tier_1_Capital_Ratio
+            type: TYPE3
+            source_file: CS_Tier_1_Capital_Ratio.sql
+            active: true
+            description: "CS - Tier 1 Capital Ratio"
+          - order: 3
+            name: CS_Tier_2_Capital_Ratio
+            type: TYPE3
+            source_file: CS_Tier_2_Capital_Ratio.sql
+            active: true
+            description: "CS - Tier 2 Capital Ratio"
+          - order: 4
+            name: CS_Total_Eligible_Capital
+            type: TYPE3
+            source_file: CS_Total_Eligible_Capital.sql
+            active: true
+            description: "CS - Total Eligible Capital"
+          - order: 5
+            name: CS_Capital_Ratio
+            type: TYPE3
+            source_file: CS_Capital_Ratio.sql
+            active: true
+            description: "CS - Capital Ratio"
+      - name: CAPITAL_BUFFERS
+        tasks:
+          - order: 1
+            name: CS_Required_Capital_Ratio_Assignment
+            type: TYPE3
+            source_file: CS_Required_Capital_Ratio_Assignment.sql
+            active: true
+            description: "CS Required Capital Ratio Assignment"
+          - order: 2
+            name: CS_Required_Additional_Loss_Absorbency_Assignment
+            type: TYPE3
+            source_file: CS_Required_Additional_Loss_Absorbency_Assignment.sql
+            active: true
+            description: "CS Required Additional Loss Absorbency Assignment"
+          - order: 3
+            name: SUB_EXP_COUNTRYWISE_CREDIT_RISK_SUMMARY
+            type: T2T
+            source_file: SUB_EXP_COUNTRYWISE_CREDIT_RISK_SUMMARY.sql
+            active: true
+          - order: 4
+            name: Country_wise_Total_EAD_for_Non_Securitized_Exposures
+            type: TYPE3
+            source_file: Country_wise_Total_EAD_for_Non_Securitized_Exposures.sql
+            active: true
+            description: "Country wise Total EAD for Non Securitized Exposures"
+          - order: 5
+            name: Country_wise_Total_EAD_for_Securitized_Exposures
+            type: TYPE3
+            source_file: Country_wise_Total_EAD_for_Securitized_Exposures.sql
+            active: true
+            description: "Country wise Total EAD for Securitized Exposures"
+          - order: 6
+            name: COUNTRYWISE_MARKET_RISK_SUMMARY
+            type: T2T
+            source_file: COUNTRYWISE_MARKET_RISK_SUMMARY.sql
+            active: true
+          - order: 7
+            name: COUNTRYWISE_RISK_SUMMARY_POP
+            type: T2T
+            source_file: COUNTRYWISE_RISK_SUMMARY_POP.sql
+            active: true
+          - order: 8
+            name: REQ_CNTR_CYC_BUFFER_POP
+            type: T2T
+            source_file: REQ_CNTR_CYC_BUFFER_POP.sql
+            active: true
+          - order: 9
+            name: CS_Required_weighted_Average_Countercyclical_Buffer
+            type: TYPE3
+            source_file: CS_Required_weighted_Average_Countercyclical_Buffer.sql
+            active: true
+            description: "CS Required weighted Average Countercyclical Buffer"
+          - order: 10
+            name: CS_Required_Buffer_from_CET1_Capital
+            type: TYPE3
+            source_file: CS_Required_Buffer_from_CET1_Capital.sql
+            active: true
+            description: "CS Required Buffer from CET1 Capital"
+          - order: 11
+            name: CS_Required_Buffer_from_Tier1_Capital
+            type: TYPE3
+            source_file: CS_Required_Buffer_from_Tier1_Capital.sql
+            active: true
+            description: "CS Required Buffer from Tier1 Capital"
+          - order: 12
+            name: CS_Required_Buffer_from_Capital_Adequacy_Ratio
+            type: TYPE3
+            source_file: CS_Required_Buffer_from_Capital_Adequacy_Ratio.sql
+            active: true
+            description: "CS Required Buffer from Capital Adequacy Ratio"
+          - order: 13
+            name: CS_Required_Total_Buffer
+            type: TYPE3
+            source_file: CS_Required_Total_Buffer.sql
+            active: true
+            description: "CS Required Total Buffer"
+          - order: 14
+            name: CS_Available_Buffer_from_CET1_Capital
+            type: TYPE3
+            source_file: CS_Available_Buffer_from_CET1_Capital.sql
+            active: true
+            description: "CS Available Buffer from CET1 Capital"
+          - order: 15
+            name: FCT_CAP_CONS_RATIO_POP
+            type: T2T
+            source_file: FCT_CAP_CONS_RATIO_POP.sql
+            active: true
+          - order: 16
+            name: CS_Capital_Buffer_Amount_Calculation
+            type: TYPE3
+            source_file: CS_Capital_Buffer_Amount_Calculation.sql
+            active: true
+            description: "CS Capital Buffer Amount Calculation"
+          - order: 17
+            name: CS_Minimum_Capital_Conservation_Ratio
+            type: TYPE3
+            source_file: CS_Minimum_Capital_Conservation_Ratio.sql
+            active: true
+            description: "CS Minimum Capital Conservation Ratio"
+          - order: 18
+            name: CS_Capital_Conservation_Buffer
+            type: TYPE3
+            source_file: CS_Capital_Conservation_Buffer.sql
+            active: true
+            description: "CS - Capital Conservation Buffer"
+          - order: 19
+            name: CS_Countercyclical_Buffer
+            type: TYPE3
+            source_file: CS_Countercyclical_Buffer.sql
+            active: false
+            inactive_reason: source_file_missing
+            description: "CS - Countercyclical Buffer"
+          - order: 20
+            name: CS_Systemic_Risk_Buffer
+            type: TYPE3
+            source_file: CS_Systemic_Risk_Buffer.sql
+            active: false
+            inactive_reason: source_file_missing
+            description: "CS - Systemic Risk Buffer"
