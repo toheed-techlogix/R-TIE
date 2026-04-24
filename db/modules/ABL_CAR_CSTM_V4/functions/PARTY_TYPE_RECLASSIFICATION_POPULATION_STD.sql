@@ -1,0 +1,34 @@
+-- =====================================================================
+-- Task: PARTY_TYPE_RECLASSIFICATION_POPULATION_STD
+-- Schema: OFSERM
+-- Wrapped: 2026-04-23
+-- Source: OFSAA execution log / metadata extraction
+-- =====================================================================
+CREATE OR REPLACE FUNCTION OFSERM.PARTY_TYPE_RECLASSIFICATION_POPULATION_STD(
+    P_V_BATCH_ID         VARCHAR2,
+    P_V_MIS_DATE         VARCHAR2,
+    P_V_RUN_ID           VARCHAR2,
+    P_V_PROCESS_ID       VARCHAR2,
+    P_V_RUN_EXECUTION_ID VARCHAR2,
+    P_N_RUN_SKEY         VARCHAR2,
+    P_V_TASK_ID          VARCHAR2
+) RETURN VARCHAR2 AUTHID CURRENT_USER AS
+
+    ld_mis_date   DATE          := TO_DATE(P_V_MIS_DATE, 'YYYYMMDD');
+    ln_mis_date   NUMBER        := TO_NUMBER(P_V_MIS_DATE);
+    ln_run_skey   NUMBER(5)     := TO_NUMBER(SUBSTR(P_N_RUN_SKEY, 8, LENGTH(P_N_RUN_SKEY)));
+    lv_run_id     VARCHAR2(64)  := SUBSTR(P_V_RUN_ID, 8, LENGTH(P_V_RUN_ID));
+
+BEGIN
+
+    insert /*+APPEND*/ into FSI_PARTY_TYPE_CLASSIFICATION(N_PARTY_TYPE_SKEY,N_MIS_DATE_SKEY,N_RUN_SKEY,V_APPROACH)SELECT  /*+PARALLEL (4)*/ to_char(DIM_PARTY_TYPE.N_PARTY_TYPE_SKEY),dim_dates.n_date_skey,'870','STD' FROM DIM_PARTY_TYPE, DIM_DATES WHERE 1=1 AND DIM_DATES.D_CALENDAR_DATE BETWEEN DIM_PARTY_TYPE.d_record_start_date AND DIM_PARTY_TYPE.d_record_end_date AND DIM_DATES.d_calendar_date = to_date('20260331','YYYYMMDD') LOG ERRORS INTO FSI_PARTY_TYPE_CLASSIFICATION$ ('1776768115059_71363950_20260331_1_Job_f501d6aa4bd543678b4c29f60b2e3622') REJECT LIMIT 50;
+
+    COMMIT;
+    RETURN 'OK';
+
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+        RETURN 'FAIL: ' || SQLERRM;
+END;
+/

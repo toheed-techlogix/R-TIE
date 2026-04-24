@@ -1,0 +1,34 @@
+-- =====================================================================
+-- Task: Third_Party_Minority_Holding_Indicator_Assignment_under_Capital_Consolidation
+-- Schema: OFSERM
+-- Wrapped: 2026-04-23
+-- Source: OFSAA execution log / metadata extraction
+-- =====================================================================
+CREATE OR REPLACE FUNCTION OFSERM.Third_Party_Minority_Holding_Indicator_Assignment_under_Capital_Consolidation(
+    P_V_BATCH_ID         VARCHAR2,
+    P_V_MIS_DATE         VARCHAR2,
+    P_V_RUN_ID           VARCHAR2,
+    P_V_PROCESS_ID       VARCHAR2,
+    P_V_RUN_EXECUTION_ID VARCHAR2,
+    P_N_RUN_SKEY         VARCHAR2,
+    P_V_TASK_ID          VARCHAR2
+) RETURN VARCHAR2 AUTHID CURRENT_USER AS
+
+    ld_mis_date   DATE          := TO_DATE(P_V_MIS_DATE, 'YYYYMMDD');
+    ln_mis_date   NUMBER        := TO_NUMBER(P_V_MIS_DATE);
+    ln_run_skey   NUMBER(5)     := TO_NUMBER(SUBSTR(P_N_RUN_SKEY, 8, LENGTH(P_N_RUN_SKEY)));
+    lv_run_id     VARCHAR2(64)  := SUBSTR(P_V_RUN_ID, 8, LENGTH(P_V_RUN_ID));
+
+BEGIN
+
+    MERGE  INTO FCT_ENTITY_INFO TT USING (   SELECT * FROM (  SELECT  /*+ PARALLEL(4) */ FCT_ENTITY_INFO.N_RUN_SKEY,FCT_ENTITY_INFO.N_ENTITY_SKEY,FCT_ENTITY_INFO.N_MIS_DATE_SKEY,FCT_ENTITY_INFO.N_FORECAST_DATE_SKEY,(FCT_ENTITY_INFO.F_THIRDPARTY_MINORITY_HOLD_IND) AS  T_1349907796192_0,   (CASE  WHEN  ( (((COALESCE(FCT_ENTITY_INFO.f_regulatory_entity_ind, 'Y') = 'Y'))) ) THEN 10 ELSE 11 END)  AS COND_1349907796192_10 ,  (COALESCE(CASE WHEN 1 = 1 THEN FCT_ENTITY_SHR_HLD_PERCENT.f_thirdparty_minority_hold_ind ELSE NULL END ,'N')) AS EXP_1349907796192_10,(FCT_ENTITY_INFO.F_THIRDPARTY_MINORITY_HOLD_IND) AS EXP_1349907796192_11  FROM  FCT_ENTITY_SHR_HLD_PERCENT  INNER JOIN FCT_ENTITY_INFO ON  FCT_ENTITY_INFO.n_entity_skey = FCT_ENTITY_SHR_HLD_PERCENT.n_investee_entity_skey      AND FCT_ENTITY_SHR_HLD_PERCENT.n_run_skey = FCT_ENTITY_INFO.n_run_skey    AND FCT_ENTITY_SHR_HLD_PERCENT.n_mis_date_skey = FCT_ENTITY_INFO.n_mis_date_skey  AND FCT_ENTITY_SHR_HLD_PERCENT.N_FORECAST_DATE_SKEY = FCT_ENTITY_INFO.N_FORECAST_DATE_SKEY  INNER JOIN   FCT_ENTITY_INFO PARENT_ENTITY ON  FCT_ENTITY_SHR_HLD_PERCENT.n_investor_entity_skey = PARENT_ENTITY.n_entity_skey AND  FCT_ENTITY_SHR_HLD_PERCENT.n_run_skey = PARENT_ENTITY.n_run_skey AND  FCT_ENTITY_SHR_HLD_PERCENT.n_mis_date_skey = PARENT_ENTITY.n_mis_date_skey AND FCT_ENTITY_SHR_HLD_PERCENT.N_FORECAST_DATE_SKEY  = PARENT_ENTITY.N_FORECAST_DATE_SKEY LEFT OUTER JOIN DIM_RUN ON  FCT_ENTITY_SHR_HLD_PERCENT.n_run_skey = DIM_RUN.n_run_skey  LEFT OUTER JOIN DIM_DATES ON  FCT_ENTITY_SHR_HLD_PERCENT.n_mis_date_skey = DIM_DATES.n_date_skey  WHERE (COALESCE(PARENT_ENTITY.f_cap_consl_parent_entity_ind,'N') = 'Y' AND;
+
+    COMMIT;
+    RETURN 'OK';
+
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+        RETURN 'FAIL: ' || SQLERRM;
+END;
+/
